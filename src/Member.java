@@ -1,18 +1,18 @@
 
 public class Member {
-	private String name;
-	private String email;
+	private String _name;
+	private String _email;
 	
 	public Member(String name, String email) {
-		this.name = name;
-		this.email = email;
+		_name = name;
+		_email = email;
 	}
 	
 	public String getName() {
-		return this.name;
+		return _name;
 	}
 	
 	public String getEmail() {
-		return this.email;
+		return _email;
 	}
 }
