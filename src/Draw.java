@@ -8,24 +8,25 @@ import javax.mail.internet.*;
 public class Draw {
 	private final static Member GORDON = new Member("Gordon Freeman", "gordon@hl.com");
 	private final static Member EDWARD = new Member("Edward Carnby", "edward@infogrames.com");
-	
+
 	private final static String SENDER = "gordon@hl.com";
 	private final static String HOST = "smtp-mail.outlook.com";
 	private final static String PORT = "587";
 	private final static String USERNAME = SENDER;
 	private final static String PASSWORD = "halflife3";
-	
+
 	public static void main(String[] args) {
 		ArrayList<Member> members = getMembers();
-		
+
 		HashMap<Member, Member> matches = getGiftMatches(members);
-		
+
 		System.out.println("All the matches are now done...");
 	    System.out.println("About to send emails to all recipients...");
-	    
-		sendEmail(members, matches);
+
+		// sendEmail(members, matches); // Uncomment sendEmail when ready to send your matches
+		printMatches(members, matches);
 	}
-	
+
 	/**
 	 * Add all the final static Member
 	 * @return ArrayList<Member> of all the final static Member
@@ -36,11 +37,11 @@ public class Draw {
 		members.add(EDWARD);
 		return members;
 	}
-	
+
 	private static HashMap<Member, Member> getGiftMatches(ArrayList<Member> members) {
 		ArrayList<Member> receivers = getMembers();
 		HashMap<Member, Member> matches = new HashMap<Member, Member>();
-		
+
 		int i = 0;
 		while (receivers.size() > 0) {
 			int n = ((int) (Math.random() * 100)) % receivers.size();
@@ -48,11 +49,11 @@ public class Draw {
 				matches.put(members.get(i), receivers.get(n));
 				receivers.remove(n);
 				i++;
-				
+
 				System.out.println("Match done. (" + i + "/" + members.size() + ")");
 			}
 		}
-		
+
 		return matches;
 	}
 
@@ -70,10 +71,10 @@ public class Draw {
 		}
 
 		/* add extra conditions here */
-		
+
 		return isValid;
 	}
-	
+
 	private static void sendEmail(ArrayList<Member> members, HashMap<Member, Member> matches) {
 		System.out.println("Setting all the connection settings...");
 	    Properties properties = getMailProperties();
@@ -83,17 +84,17 @@ public class Draw {
 			}
 		};
 	    Session session = Session.getInstance(properties, authenticator);
-	    
+
 		for (int i = 0; i < matches.size(); i++) {
 		    Member emailRecipient = members.get(i);
 		    String giftReceiver = matches.get(emailRecipient).getName();
-		    
+
 			send(SENDER, emailRecipient, HOST, USERNAME, PASSWORD, session, giftReceiver);
-			
+
 			System.out.println("Sent message successfully... (" + (i + 1) + "/" + members.size() + ")");
 		}
 	}
-	
+
 	private static Properties getMailProperties() {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.host", HOST);
@@ -137,6 +138,12 @@ public class Draw {
 		    t.close();
 		} catch (MessagingException mex) {
 		    mex.printStackTrace();
+		}
+	}
+
+	private static void printMatches(ArrayList<Member> members, HashMap<Member, Member> matches) {
+		for (int i = 0; i < matches.size(); i++) {
+			System.out.println(members.get(i).getName() + ": " + matches.get(members.get(i)).getName());
 		}
 	}
 }
