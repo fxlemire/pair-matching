@@ -9,10 +9,10 @@ public class Draw {
 	private final static Member GORDON = new Member("Gordon Freeman", "gordon@hl.com");
 	private final static Member EDWARD = new Member("Edward Carnby", "edward@infogrames.com");
 
-	private final static String SENDER = "gordon@hl.com";
+	private final static String SENDER = "Gordon Freeman <gordon@hl.com>";
 	private final static String HOST = "smtp-mail.outlook.com";
 	private final static String PORT = "587";
-	private final static String USERNAME = SENDER;
+	private final static String USERNAME = "gordon@hl.com";
 	private final static String PASSWORD = "halflife3";
 
 	public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class Draw {
 		HashMap<Member, Member> matches = getGiftMatches(members);
 
 		System.out.println("All the matches are now done...");
-	    System.out.println("About to send emails to all recipients...");
+		System.out.println("About to send emails to all recipients...");
 
 		// sendEmail(members, matches); // Uncomment sendEmail when ready to send your matches
 		printMatches(members, matches);
@@ -43,14 +43,27 @@ public class Draw {
 		HashMap<Member, Member> matches = new HashMap<Member, Member>();
 
 		int i = 0;
+		int attempts = 0;
+
 		while (receivers.size() > 0) {
 			int n = ((int) (Math.random() * 100)) % receivers.size();
+
 			if (isValidPair(members.get(i), receivers.get(n))) {
 				matches.put(members.get(i), receivers.get(n));
 				receivers.remove(n);
-				i++;
-
+				++i;
 				System.out.println("Match done. (" + i + "/" + members.size() + ")");
+			}
+
+			++attempts;
+
+			if (attempts > members.size() * 10) {
+				attempts = 0;
+				i = 0;
+				matches = new HashMap<Member, Member>();
+				receivers = getMembers();
+				System.out.println("Could not find a good match...");
+				System.out.println("Retrying...");
 			}
 		}
 
@@ -77,17 +90,19 @@ public class Draw {
 
 	private static void sendEmail(ArrayList<Member> members, HashMap<Member, Member> matches) {
 		System.out.println("Setting all the connection settings...");
-	    Properties properties = getMailProperties();
+		Properties properties = getMailProperties();
+
 		Authenticator authenticator = new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(USERNAME, PASSWORD);
 			}
 		};
-	    Session session = Session.getInstance(properties, authenticator);
 
-		for (int i = 0; i < matches.size(); i++) {
-		    Member emailRecipient = members.get(i);
-		    String giftReceiver = matches.get(emailRecipient).getName();
+		Session session = Session.getInstance(properties, authenticator);
+
+		for (int i = 0; i < matches.size(); ++i) {
+			Member emailRecipient = members.get(i);
+			String giftReceiver = matches.get(emailRecipient).getName();
 
 			send(SENDER, emailRecipient, HOST, USERNAME, PASSWORD, session, giftReceiver);
 
@@ -107,42 +122,46 @@ public class Draw {
 		properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.socketFactory.fallback", "false");
 
-	    return properties;
+		return properties;
 	}
 
 	private static void send(String from, Member emailRecipient, String host, String username, String password, Session session, String giftReceiver) {
 		try {
-		    // Create a default MimeMessage object.
-		    MimeMessage message = new MimeMessage(session);
+			// Create a default MimeMessage object.
+			MimeMessage message = new MimeMessage(session);
 
-		    // Set From: header field of the header.
-		    message.setFrom(new InternetAddress(from));
+			// Set From: header field of the header.
+			message.setFrom(new InternetAddress(from));
 
-		    // Set To: header field of the header.
-		    message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailRecipient.getEmail()));
+			// Set To: header field of the header.
+			String recipient = emailRecipient.getName() + " <" + emailRecipient.getEmail() + ">";
 
-		    // Set Subject: header field
-			message.setSubject("Your draw result!");
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
-		    // Send the actual HTML message, as big as you like
-		    message.setContent(
-					"<body>" +
-						"<h1>Your draw: " + giftReceiver + "</h1>" +
-						"</body>"
-					, "text/html");
+			// Set Subject: header field
+			String subject = emailRecipient.getName() + "! Here is your draw result!";
 
-		    // Send message
-		    Transport t = session.getTransport("smtp");
-		    t.connect(host, username, password);
-		    t.sendMessage(message, message.getAllRecipients());
-		    t.close();
+			message.setSubject(subject);
+
+			// Send the actual HTML message, as big as you like
+			message.setContent(
+				"<body>" +
+					"<h1>Your draw: " + giftReceiver + "</h1>" +
+				"</body>"
+			, "text/html");
+
+			// Send message
+			Transport t = session.getTransport("smtp");
+			t.connect(host, username, password);
+			t.sendMessage(message, message.getAllRecipients());
+			t.close();
 		} catch (MessagingException mex) {
-		    mex.printStackTrace();
+			mex.printStackTrace();
 		}
 	}
 
 	private static void printMatches(ArrayList<Member> members, HashMap<Member, Member> matches) {
-		for (int i = 0; i < matches.size(); i++) {
+		for (int i = 0; i < matches.size(); ++i) {
 			System.out.println(members.get(i).getName() + ": " + matches.get(members.get(i)).getName());
 		}
 	}
