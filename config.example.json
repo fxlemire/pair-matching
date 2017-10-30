@@ -1,0 +1,82 @@
+{
+  "SEND": true,
+  "email": {
+    "content": "<body><div style=\"display: inline-block;\"><h1>Christmas with the Combines &#127876;</h1><div style=\"display: inline-block;\"><img src=\"http://gbatemp.net/pix/157062/Half%20Life%202%20Christmas.jpg\" border=\"0\" alt=\"Gordon wishes you a merry Christmas\" style=\"height: 30em; width: auto;\"/></div><p><i>It's the most wonderful time of the year!</i>&#127877;</p><hr><p>Your pick: giftReceiver</p><p>Amount: &#8776; $25</p><hr><h1><font color=\"red\">M</font><font color=\"green\">e</font><font color=\"red\">r</font><font color=\"green\">r</font><font color=\"red\">y&nbsp;</font><font color=\"green\">C</font><font color=\"red\">h</font><font color=\"green\">r</font><font color=\"red\">i</font><font color=\"green\">s</font><font color=\"red\">t</font><font color=\"green\">m</font><font color=\"red\">a</font><font color=\"green\">s</font><font color=\"red\">!</font><font color=\"green\">!</font></h1></div><div style=\"display: block;\"><img src=\"http://content.ytmnd.com/content/b/8/6/b86df0da6b862be2569b64eacf6fcf98.jpg\" border=\"0\" alt=\"gordon & Family\" style=\"height: 30em; width: auto;\"/></div></body>",
+    "override": {
+      "lamarr@hc.com": {
+        "to": "Hedy Lamarr"
+      },
+      "vortigaunt@xen.com": {
+        "subject": "Vorti! Thanks for not going to Xen this Christmas!"
+      }
+    },
+    "subject": "emailRecipient! Nihilanth brought you a gift!"
+  },
+  "members": [
+    {
+      "email": "gordon.freeman@hl.com",
+      "name": "Gordon"
+    },
+    {
+      "email": "alyx.vance@hl2.com",
+      "name": "Alyx"
+    },
+    {
+      "email": "barney.calhoun@hl.com",
+      "name": "Barney"
+    },
+    {
+      "email": "vortigaunt@xen.com",
+      "name": "Vorti"
+    },
+    {
+      "email": "eli.vance@hl.com",
+      "name": "Eli"
+    },
+    {
+      "email": "isaac.kleiner@hl.com",
+      "name": "Isaac"
+    },
+    {
+      "email": "lamarr@hc.com",
+      "name": "Lamarr"
+    },
+    {
+      "email": "adrian.shephard@hl.com",
+      "name": "Adrian"
+    },
+    {
+      "email": "father.grigori@hl2.com",
+      "name": "Grigori"
+    },
+    {
+      "email": "wallace.breen@hl2.com",
+      "name": "Wallace"
+    }
+  ],
+  "rules": {
+    "couples": [
+      ["gordon.freeman@hl.com", "alyx.vance@hl2.com"],
+      ["isaac.kleiner@hl.com", "lamarr@hc.com"]
+    ],
+    "pastyears": [
+      ["gordon.freeman@hl.com", "barney.calhoun@hl.com"],
+      ["alyx.vance@hl2.com", "wallace.breen@hl2.com"],
+      ["barney.calhoun@hl.com", "vortigaunt@xen.com"],
+      ["vortigaunt@xen.com", "lamarr@hc.com"],
+      ["eli.vance@hl.com", "father.grigori@hl2.com"],
+      ["isaac.kleiner@hl.com", "eli.vance@hl.com"],
+      ["lamarr@hc.com", "gordon.freeman@hl.com"],
+      ["adrian.shephard@hl.com", "isaac.kleiner@hl.com"],
+      ["father.grigori@hl2.com", "adrian.shephard@hl.com"],
+      ["wallace.breen@hl2.com", "alyx.vance@hl2.com"]
+    ]
+  },
+  "sender": {
+    "from": "The G-Man <gman@hl3.com>",
+    "host": "smtp-mail.hl3.com",
+    "port": "011",
+    "username": "gman@hl3.com",
+    "password": "ItWillNeverHappen011"
+  }
+}
